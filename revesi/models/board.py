@@ -6,7 +6,6 @@ class Board:
     last_puted_rocation = [0, 0]  # x, y
     last_puted_color = None
     last_puted_piece_copy = None
-    
 
     def __init__(self):
         #盤面の生成(Piece64個)
@@ -59,7 +58,6 @@ class Board:
     def update(self):  # boad上のpiece色を演算し、更新
         x_offset = self.last_puted_rocation[0]
         y_offset = self.last_puted_rocation[1]
-        flag = False
         ########################################
         # 行
         ########################################
@@ -67,7 +65,6 @@ class Board:
         target_x_left = x_offset
         for x_left in range(x_offset - 1, -1, -1):
             if self.pieces[y_offset][x_left].state != self.last_puted_color and self.is_already_put(x_left, y_offset): #違う色なら
-                Flag = True
                 continue
             if (self.pieces[y_offset][x_left].state == self.last_puted_color) and (x_left is not x_offset):
                 target_x_left = x_left
@@ -79,7 +76,6 @@ class Board:
         target_x_right = x_offset
         for x_right in range(x_offset + 1, 8):
             if self.pieces[y_offset][x_right].state != self.last_puted_color and self.is_already_put(x_right, y_offset):
-                Flag = True
                 continue
             if (self.pieces[y_offset][x_right].state == self.last_puted_color) and (x_right is not x_offset):
                 target_x_right = x_right
@@ -101,7 +97,6 @@ class Board:
         target_y_upper = y_offset
         for y_upper in range(y_offset - 1, -1, -1):
             if self.pieces[y_upper][x_offset].state != self.last_puted_color and self.is_already_put(x_offset, y_upper):
-                Flag = True
                 continue
             if (self.pieces[y_upper][x_offset].state == self.last_puted_color) and (y_upper is not y_offset):
                 target_y_upper = y_upper
@@ -113,7 +108,6 @@ class Board:
         target_y_lower = y_offset
         for y_lower in range(y_offset + 1, 8):
             if self.pieces[y_lower][x_offset].state != self.last_puted_color and self.is_already_put(x_offset, y_lower):
-                Flag = True
                 continue
             if (self.pieces[y_lower][x_offset].state == self.last_puted_color) and (y_lower is not y_offset):
                 target_y_lower = y_lower
@@ -141,7 +135,6 @@ class Board:
             if x_left < 0 or y_lower > 7: #壁にぶつかったら
                 break
             if self.pieces[y_lower][x_left].state != self.last_puted_color and self.is_already_put(x_left,y_lower):  # 違う色なら
-                Flag = True
                 continue
             if (self.pieces[y_lower][x_left].state == self.last_puted_color) and (x_left is not x_offset) and (y_lower is not y_offset):
                 target_x_left = x_left
@@ -159,7 +152,6 @@ class Board:
             if x_right > 7 or y_upper < 0:  # 壁にぶつかったら
                 break
             if self.pieces[y_upper][x_right].state != self.last_puted_color and self.is_already_put(x_right,y_upper):
-                Flag = True
                 continue
             if (self.pieces[y_upper][x_right].state == self.last_puted_color) and (x_right is not x_offset) and (y_upper is not y_offset):
                 target_x_right = x_right
@@ -191,7 +183,6 @@ class Board:
             if x_left < 0 or y_upper < 0: #壁にぶつかったら
                 break
             if self.pieces[y_upper][x_left].state != self.last_puted_color and self.is_already_put(x_left,y_upper):  # 違う色なら
-                Flag = True
                 continue
             if (self.pieces[y_upper][x_left].state == self.last_puted_color) and (x_left is not x_offset) and (y_upper is not y_offset):
                 target_x_left = x_left
@@ -209,7 +200,6 @@ class Board:
             if x_right > 7 or y_lower > 7:  # 壁にぶつかったら
                 break
             if self.pieces[y_lower][x_right].state != self.last_puted_color and self.is_already_put(x_right,y_lower):
-                Flag = True
                 continue
             if (self.pieces[y_lower][x_right].state == self.last_puted_color) and (x_right is not x_offset) and (y_lower is not y_offset):
                 target_x_right = x_right
@@ -235,3 +225,143 @@ class Board:
         if self.calc_BLACK_area() < self.calc_WHITE_area():
             return False
         return None  # Noneを返せば引き分け
+
+    def put_piece_check(self,x,y,color):  # boad上のpiece色を演算し、更新
+        x_offset = x
+        y_offset = y
+        flag = False
+        ########################################
+        # 行
+        ########################################
+        # コマを置いた左側
+        target_x_left = x_offset
+        for x_left in range(x_offset - 1, -1, -1):
+            if self.pieces[y_offset][x_left].state != color and self.is_already_put(x_left, y_offset): #違う色なら
+                continue
+            if (self.pieces[y_offset][x_left].state == color) and (x_left is not x_offset):
+                target_x_left = x_left
+                flag = True
+                break
+            else:
+                break
+
+        # コマを置いた右側
+        target_x_right = x_offset
+        for x_right in range(x_offset + 1, 8):
+            if self.pieces[y_offset][x_right].state != color and self.is_already_put(x_right, y_offset):
+                continue
+            if (self.pieces[y_offset][x_right].state == color) and (x_right is not x_offset):
+                target_x_right = x_right
+                flag = True
+                break
+            else:
+                break
+        ########################################
+        # 列
+        ########################################
+        # コマを置いた上側
+        target_y_upper = y_offset
+        for y_upper in range(y_offset - 1, -1, -1):
+            if self.pieces[y_upper][x_offset].state != color and self.is_already_put(x_offset, y_upper):
+                continue
+            if (self.pieces[y_upper][x_offset].state == color) and (y_upper is not y_offset):
+                target_y_upper = y_upper
+                flag = True
+                break
+            else:
+                break
+
+        # コマを置いた下側
+        target_y_lower = y_offset
+        for y_lower in range(y_offset + 1, 8):
+            if self.pieces[y_lower][x_offset].state != color and self.is_already_put(x_offset, y_lower):
+                continue
+            if (self.pieces[y_lower][x_offset].state == color) and (y_lower is not y_offset):
+                target_y_lower = y_lower
+                flag = True
+                break
+            else:
+                break
+
+        ########################################
+        # 右上がり斜め
+        ########################################
+        # コマを置いた左下側
+        target_x_left = x_offset
+        target_y_lower = y_offset
+        for i in range(1, 8):
+            x_left = x_offset - i
+            y_lower = y_offset + i
+            if x_left < 0 or y_lower > 7: #壁にぶつかったら
+                break
+            if self.pieces[y_lower][x_left].state != color and self.is_already_put(x_left,y_lower):  # 違う色なら
+                continue
+            if (self.pieces[y_lower][x_left].state == color) and (x_left is not x_offset) and (y_lower is not y_offset):
+                target_x_left = x_left
+                target_y_lower = y_lower
+                flag = True
+                break
+            else:
+                break
+
+        # コマを置いた右上側
+        target_x_right = x_offset
+        target_y_upper = y_offset
+        for i in range(1, 8):
+            x_right = x_offset + i
+            y_upper = y_offset - i
+            if x_right > 7 or y_upper < 0:  # 壁にぶつかったら
+                break
+            if self.pieces[y_upper][x_right].state != color and self.is_already_put(x_right,y_upper):
+                continue
+            if (self.pieces[y_upper][x_right].state == color) and (x_right is not x_offset) and (y_upper is not y_offset):
+                target_x_right = x_right
+                target_y_upper = y_upper
+                flag = True
+                break
+            else:
+                break
+
+        ########################################
+        # 右下がり斜め
+        ########################################
+        # コマを置いた左上側
+        target_x_left = x_offset
+        target_y_upper = y_offset
+        for i in range(1, 8):
+            x_left = x_offset - i
+            y_upper = y_offset - i
+            if x_left < 0 or y_upper < 0: #壁にぶつかったら
+                break
+            if self.pieces[y_upper][x_left].state != color and self.is_already_put(x_left,y_upper):  # 違う色なら
+                continue
+            if (self.pieces[y_upper][x_left].state == color) and (x_left is not x_offset) and (y_upper is not y_offset):
+                target_x_left = x_left
+                target_y_upper = y_upper
+                flag = True
+                break
+            else:
+                break
+
+        # コマを置いた右上側
+        target_x_right = x_offset
+        target_y_lower = y_offset
+        for i in range(1, 8):
+            x_right = x_offset + i
+            y_lower = y_offset + i
+            if x_right > 7 or y_lower > 7:  # 壁にぶつかったら
+                break
+            if self.pieces[y_lower][x_right].state != color and self.is_already_put(x_right,y_lower):
+                continue
+            if (self.pieces[y_lower][x_right].state == color) and (x_right is not x_offset) and (y_lower is not y_offset):
+                target_x_right = x_right
+                target_y_lower = y_lower
+                flag = True
+                break
+            else:
+                break
+
+        if flag == True:
+            return False
+        else:
+            return True

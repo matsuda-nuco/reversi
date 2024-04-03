@@ -19,13 +19,14 @@ class Player:
                 exit()
             px = int(p_puts[0]) - 1
             py = int(p_puts[1]) - 1
+            choice_color = self.color
             if self.board.is_already_put(px, py):
                 print("その場所には既にコマが置かれています。")
                 continue
             if (px < 0) or (px >= 8) or (py < 0) or (py >= 8):
                 print("範囲外です。")
                 continue
-            if 
+            if self.board.put_piece_check(px, py, choice_color):
                 print("挟める相手のコマがありません")
                 continue
             break

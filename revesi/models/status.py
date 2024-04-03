@@ -8,12 +8,12 @@ class Status(Enum):
 
     BLACK = {
     "label": "black",
-    "value": "●"
-    }   
+    "value": "○"
+    }
 
     WHITE = {
     "label": "white",
-    "value": "○"
+    "value": "●"
     }
 
     @staticmethod
@@ -22,7 +22,7 @@ class Status(Enum):
             if k.value["label"] == l:
                 return k
         raise ValueError(f"undefined Status: {l}")
-    
+
     @property
     def val(self):
         return self.value["value"]
