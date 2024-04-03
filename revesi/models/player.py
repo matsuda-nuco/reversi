@@ -19,7 +19,7 @@ class Player:
                 exit()
             px = int(p_puts[0]) - 1
             py = int(p_puts[1]) - 1
-            choice_color = self.color
+            choice_color = Status.label_of(self.color)
             if self.board.is_already_put(px, py):
                 print("その場所には既にコマが置かれています。")
                 continue

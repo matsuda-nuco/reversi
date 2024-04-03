@@ -226,10 +226,9 @@ class Board:
             return False
         return None  # Noneを返せば引き分け
 
-    def put_piece_check(self,x,y,color):  # boad上のpiece色を演算し、更新
+    def put_piece_check(self,x,y,color):  # boad上のpieceの色のチェック
         x_offset = x
         y_offset = y
-        flag = False
         ########################################
         # 行
         ########################################
@@ -240,8 +239,8 @@ class Board:
                 continue
             if (self.pieces[y_offset][x_left].state == color) and (x_left is not x_offset):
                 target_x_left = x_left
-                flag = True
-                break
+                if target_x_left != x_offset - 1:
+                    return False
             else:
                 break
 
@@ -252,8 +251,8 @@ class Board:
                 continue
             if (self.pieces[y_offset][x_right].state == color) and (x_right is not x_offset):
                 target_x_right = x_right
-                flag = True
-                break
+                if target_x_right != x_offset + 1:
+                    return False
             else:
                 break
         ########################################
@@ -266,8 +265,8 @@ class Board:
                 continue
             if (self.pieces[y_upper][x_offset].state == color) and (y_upper is not y_offset):
                 target_y_upper = y_upper
-                flag = True
-                break
+                if target_y_upper != y_offset - 1:
+                    return False
             else:
                 break
 
@@ -278,8 +277,8 @@ class Board:
                 continue
             if (self.pieces[y_lower][x_offset].state == color) and (y_lower is not y_offset):
                 target_y_lower = y_lower
-                flag = True
-                break
+                if target_y_lower != y_offset + 1:
+                    return False
             else:
                 break
 
@@ -299,8 +298,9 @@ class Board:
             if (self.pieces[y_lower][x_left].state == color) and (x_left is not x_offset) and (y_lower is not y_offset):
                 target_x_left = x_left
                 target_y_lower = y_lower
-                flag = True
-                break
+                if target_x_left != x_offset and target_y_lower != y_offset:
+                    if self.pieces[y_lower][x_left].state != color:
+                        return False
             else:
                 break
 
@@ -317,8 +317,9 @@ class Board:
             if (self.pieces[y_upper][x_right].state == color) and (x_right is not x_offset) and (y_upper is not y_offset):
                 target_x_right = x_right
                 target_y_upper = y_upper
-                flag = True
-                break
+                if target_x_right != x_offset and target_y_upper != y_offset:
+                    if self.pieces[y_upper][x_right].state != color:
+                        return False
             else:
                 break
 
@@ -338,12 +339,13 @@ class Board:
             if (self.pieces[y_upper][x_left].state == color) and (x_left is not x_offset) and (y_upper is not y_offset):
                 target_x_left = x_left
                 target_y_upper = y_upper
-                flag = True
-                break
+                if target_x_left != x_offset and target_y_upper != y_offset:
+                    if self.pieces[y_upper][x_left].state != color:
+                        return False
             else:
                 break
 
-        # コマを置いた右上側
+        # コマを置いた右下側
         target_x_right = x_offset
         target_y_lower = y_offset
         for i in range(1, 8):
@@ -356,12 +358,8 @@ class Board:
             if (self.pieces[y_lower][x_right].state == color) and (x_right is not x_offset) and (y_lower is not y_offset):
                 target_x_right = x_right
                 target_y_lower = y_lower
-                flag = True
-                break
+                if target_x_right != x_offset and target_y_lower != y_offset:
+                    if self.pieces[y_lower][x_right].state != color:
+                        return False
             else:
-                break
-
-        if flag == True:
-            return False
-        else:
-            return True
+                return True
