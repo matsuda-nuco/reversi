@@ -5,8 +5,8 @@ from models.cpu_player import CpuPlayer
 
 class Game:
     def __init__(self):
-        self.p1 = Player("Player1", "white")
-        self.p2 = Player("Player2", "black")
+        self.p1 = CpuPlayer("Cpu1", "white")
+        self.p2 = CpuPlayer("Cpu2", "black")
         self.board = Board()
 
     def _finish_game(self):
