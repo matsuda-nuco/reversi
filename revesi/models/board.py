@@ -53,6 +53,12 @@ class Board:
                     area += 1
         return area
 
+    def BLACK_is_win(self):
+        if self._calc_BLACK_area() > self._calc_WHITE_area():
+            return True
+        if self._calc_BLACK_area() < self._calc_WHITE_area():
+            return False
+        return None  # Noneを返せば引き分け
 
     #"○"が更新されねえ...
     def update(self):  # boad上のpiece色を演算し、更新
@@ -219,12 +225,6 @@ class Board:
             y = y_offset + i
             self.pieces[y][x].reverse_piece()
 
-    def BLACK_is_win(self):
-        if self.calc_BLACK_area() > self.calc_WHITE_area():
-            return True
-        if self.calc_BLACK_area() < self.calc_WHITE_area():
-            return False
-        return None  # Noneを返せば引き分け
 
     def put_piece_check(self,x,y,color):  # boad上のpieceの色のチェック
         x_offset = x

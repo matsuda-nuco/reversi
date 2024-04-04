@@ -2,11 +2,19 @@ from models.board import Board
 from models.player import Player
 from models.cpu_player import CpuPlayer
 
-
+def choice_player():
+    while True:
+        choice = input("playerと対戦する場合は1,cpuと対戦する場合は2を入力してください。:")
+        if choice == "1":
+            return Player("Player2", "black")
+        elif choice == "2":
+            return CpuPlayer("Cpu", "black")
+        else:
+            print("入力が不正です。")
 class Game:
     def __init__(self):
-        self.p1 = CpuPlayer("Cpu1", "white")
-        self.p2 = CpuPlayer("Cpu2", "black")
+        self.p1 = Player("Player1", "white")
+        self.p2 = choice_player()
         self.board = Board()
 
     def _finish_game(self):

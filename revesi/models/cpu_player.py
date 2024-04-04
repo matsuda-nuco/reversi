@@ -1,10 +1,9 @@
 import random
 from models.status import Status
 from models.board import Board
-
 class CpuPlayer:
     def __init__(self, name, color):
-        self.piece_has = 32  # オセロのコマの所持数
+        self.piece_has = 30  # オセロのコマの所持数
         self.name = name
         self.color = color
         self.board = Board()
@@ -37,7 +36,6 @@ class CpuPlayer:
                     continue
                 print("{}({})の手番です".format(self.name, self.color))
                 print(f"残りコマ数：{self.piece_has}")
-                print(available_list)
                 break
-            self._put_piece
+            self._put_piece()
             return px, py
