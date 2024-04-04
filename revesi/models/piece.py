@@ -7,10 +7,10 @@ class Piece:
         self.x = x
         self.y = y
 
-    def set_state(self, color: str):
+    def set_state(self, color: str) -> Status:
         self.state: Status = Status.label_of(color)
 
-    def reverse_piece(self):  # 裏返す
+    def reverse_piece(self) -> Status:  # 裏返す
         if self.state == Status.BLACK:
             self.state = Status.WHITE
         elif self.state == Status.WHITE:

@@ -24,20 +24,20 @@ class Board:
     def __add__(self, another):
         return self.__str__() + another
 
-    def is_already_put(self, x, y):
+    def is_already_put(self, x: int, y: int) -> bool:
         ##print(type(self))
         if self.pieces[y][x].state != Status.SPACE:
             return True
         else:
             return False
 
-    def set_piece_to(self, x, y, color):  # pieceを置くときに呼ぶ
+    def set_piece_to(self, x: int, y: int, color: str) -> any:  # pieceを置くときに呼ぶ
         self.pieces[y][x].set_state(color)
         self.last_puted_rocation[0] = x
         self.last_puted_rocation[1] = y
         self.last_puted_color = Status.label_of(color)
 
-    def _calc_BLACK_area(self):
+    def _calc_BLACK_area(self) -> int:
         area = 0
         for y in self.pieces:
             for x in y:
@@ -45,7 +45,7 @@ class Board:
                     area += 1
         return area
 
-    def _calc_WHITE_area(self):
+    def _calc_WHITE_area(self) -> int:
         area = 0
         for y in self.pieces:
             for x in y:
@@ -53,7 +53,7 @@ class Board:
                     area += 1
         return area
 
-    def BLACK_is_win(self):
+    def BLACK_is_win(self) -> bool:
         if self._calc_BLACK_area() > self._calc_WHITE_area():
             return True
         if self._calc_BLACK_area() < self._calc_WHITE_area():
@@ -61,7 +61,7 @@ class Board:
         return None  # Noneを返せば引き分け
 
     #"○"が更新されねえ...
-    def update(self):  # boad上のpiece色を演算し、更新
+    def update(self) -> Piece:  # boad上のpiece色を演算し、更新
         x_offset = self.last_puted_rocation[0]
         y_offset = self.last_puted_rocation[1]
         ########################################
@@ -226,7 +226,7 @@ class Board:
             self.pieces[y][x].reverse_piece()
 
 
-    def put_piece_check(self,x,y,color):  # boad上のpieceの色のチェック
+    def put_piece_check(self, x: int, y: int, color: str) -> bool:  # boad上のpieceの色のチェック
         x_offset = x
         y_offset = y
         flag = False
@@ -234,7 +234,6 @@ class Board:
         # 行
         ########################################
         # コマを置いた左側
-        target_x_left = x_offset
         for x_left in range(x_offset - 1, -1, -1):
             if self.pieces[y_offset][x_left].state == Status.SPACE:
                 break
@@ -245,7 +244,6 @@ class Board:
                 return False
 
         # コマを置いた右側
-        target_x_right = x_offset
         for x_right in range(x_offset + 1, 8):
             if self.pieces[y_offset][x_right].state == Status.SPACE:
                 break
@@ -259,7 +257,6 @@ class Board:
         # 列
         ########################################
         # コマを置いた上側
-        target_y_upper = y_offset
         for y_upper in range(y_offset - 1, -1, -1):
             if self.pieces[y_upper][x_offset].state == Status.SPACE:
                 break
@@ -270,7 +267,6 @@ class Board:
                 return False
 
         # コマを置いた下側
-        target_y_lower = y_offset
         for y_lower in range(y_offset + 1, 8):
             if self.pieces[y_lower][x_offset].state == Status.SPACE:
                 break
@@ -284,8 +280,6 @@ class Board:
         # 右上がり斜め
         ########################################
         # コマを置いた左下側
-        target_x_left = x_offset
-        target_y_lower = y_offset
         for i in range(1, 8):
             x_left = x_offset - i
             y_lower = y_offset + i
@@ -300,8 +294,6 @@ class Board:
                 return False
 
         # コマを置いた右上側
-        target_x_right = x_offset
-        target_y_upper = y_offset
         for i in range(1, 8):
             x_right = x_offset + i
             y_upper = y_offset - i
@@ -319,8 +311,6 @@ class Board:
         # 右下がり斜め
         ########################################
         # コマを置いた左上側
-        target_x_left = x_offset
-        target_y_upper = y_offset
         for i in range(1, 8):
             x_left = x_offset - i
             y_upper = y_offset - i
@@ -335,8 +325,6 @@ class Board:
                 return False
 
         # コマを置いた右下側
-        target_x_right = x_offset
-        target_y_lower = y_offset
         for i in range(1, 8):
             x_right = x_offset + i
             y_lower = y_offset + i

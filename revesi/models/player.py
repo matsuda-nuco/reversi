@@ -8,10 +8,10 @@ class Player:
         self.name = name
         self.color = color
 
-    def _put_piece(self):
+    def _put_piece(self) -> None:
         self.piece_has -= 1
 
-    def choice_place(self):
+    def choice_place(self) -> tuple:
         while True:
             p_puts = input("{}({})の手番です([x y]で座標を指定してください。):".format(self.name, self.color))
             p_puts = p_puts.split()

@@ -8,10 +8,10 @@ class CpuPlayer:
         self.color = color
         self.board = Board()
 
-    def _put_piece(self):
+    def _put_piece(self) -> None:
         self.piece_has -= 1
 
-    def _can_put_place(self):
+    def _can_put_place(self) -> list:
         can_put_list = []
         for i in range(0,8):
             for j in range(0,8):
@@ -25,7 +25,7 @@ class CpuPlayer:
                 can_put_list.append((px, py))
         return can_put_list
 
-    def choice_place(self):
+    def choice_place(self) -> tuple:
             choice_color = Status.label_of(self.color)
             available_list = self._can_put_place()
             while True:

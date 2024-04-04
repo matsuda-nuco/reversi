@@ -17,7 +17,7 @@ class Status(Enum):
     }
 
     @staticmethod
-    def label_of(l: str):
+    def label_of(l: str) -> object:
         for k in Status:
             if k.value["label"] == l:
                 return k

@@ -1,8 +1,7 @@
 from models.board import Board
 from models.player import Player
 from models.cpu_player import CpuPlayer
-
-def choice_player():
+def choice_player() -> Player or CpuPlayer:
     while True:
         choice = input("playerと対戦する場合は1,cpuと対戦する場合は2を入力してください。:")
         if choice == "1":
@@ -17,7 +16,7 @@ class Game:
         self.p2 = choice_player()
         self.board = Board()
 
-    def _finish_game(self):
+    def _finish_game(self) -> None:
         if self.board.BLACK_is_win() is not None:
             if self.board.BLACK_is_win():
                 print("黒が勝ちです。")
@@ -25,13 +24,12 @@ class Game:
                 print("白が勝ちです。")
         if self.board.BLACK_is_win() is None:
             print("引き分けです。")
-        exit()  # これってメモリ解放してくれるん...?
-
-    def turn(self, player):
+        exit()
+    def turn(self, player:str) -> None:
         px, py = player.choice_place()
         self.board.set_piece_to(px, py, player.color)
 
-    def play_game(self):
+    def play_game(self) -> None:
         self.board.set_piece_to(3, 3, "black")
         self.board.set_piece_to(4, 4, "black")
         self.board.set_piece_to(3, 4, "white")
