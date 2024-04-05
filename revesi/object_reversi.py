@@ -17,7 +17,7 @@ def choice_player() -> Player | CpuPlayer:
 
 class Game:
     def __init__(self):
-        self.p1 = CpuPlayer("Player1", Status.WHITE)
+        self.p1 = Player("Player1", Status.WHITE)
         self.p2 = choice_player()
         self.board = Board()
 

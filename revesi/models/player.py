@@ -14,7 +14,7 @@ class Player:
 
     def choice_place(self) -> tuple:
         while True:
-            p_puts = input("{}({})の手番です([x y]で座標を指定してください。):".format(self.name, self.color))
+            p_puts = input("{}({})の手番です([x y]で座標を指定してください。):".format(self.name, self.color.val))
             p_puts = p_puts.split()
             if p_puts[0] == 'q':
                 exit()
@@ -26,7 +26,7 @@ class Player:
             if (px < 0) or (px >= 8) or (py < 0) or (py >= 8):
                 print("範囲外です。")
                 continue
-            if self.board.enable_put(px, py, self.color.val):
+            if self.board.enable_put(px, py, self.color):
                 print("挟める相手のコマがありません。")
                 continue
             break

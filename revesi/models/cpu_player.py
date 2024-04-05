@@ -6,9 +6,9 @@ from models.board import Board
 class CpuPlayer:
     def __init__(self, name: str, color: Status):
         self.piece_has = 30  # オセロのコマの所持数
+        self.board = Board()
         self.name = name
         self.color = color
-        self.board = Board()
 
     def _put_piece(self) -> None:
         self.piece_has -= 1
