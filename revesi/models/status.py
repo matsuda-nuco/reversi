@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Status(Enum):
     SPACE = {
     "label": "space",
@@ -26,3 +27,7 @@ class Status(Enum):
     @property
     def val(self):
         return self.value["value"]
+
+    @property
+    def lab(self):
+        return self.value["label"]

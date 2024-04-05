@@ -1,13 +1,14 @@
 from models.status import Status
 from models.piece import Piece
 
+
 class Board:
     pieces = [["" for i in range(8)] for j in range(8)]
-    last_puted_rocation = [0, 0]  # x, y
-    last_puted_color = None
-    last_puted_piece_copy = None
 
     def __init__(self):
+        self.last_puted_rocation = [0, 0]  # x, y
+        self.last_puted_color = None
+        self.last_puted_piece_copy = None
         #盤面の生成(Piece64個)
         for x in range(0, 8):
             for y in range(0, 8):
@@ -26,18 +27,15 @@ class Board:
 
     def is_already_put(self, x: int, y: int) -> bool:
         ##print(type(self))
-        if self.pieces[y][x].state != Status.SPACE:
-            return True
-        else:
-            return False
+        return self.pieces[y][x].state != Status.SPACE
 
-    def set_piece_to(self, x: int, y: int, color: str) -> any:  # pieceを置くときに呼ぶ
-        self.pieces[y][x].set_state(color)
+    def set_piece_to(self, x: int, y: int, color: Status) -> None:  # pieceを置くときに呼ぶ
+        self.pieces[y][x].state = color
         self.last_puted_rocation[0] = x
         self.last_puted_rocation[1] = y
-        self.last_puted_color = Status.label_of(color)
+        self.last_puted_color = color
 
-    def _calc_BLACK_area(self) -> int:
+    def _count_black_area(self) -> int:
         area = 0
         for y in self.pieces:
             for x in y:
@@ -45,7 +43,7 @@ class Board:
                     area += 1
         return area
 
-    def _calc_WHITE_area(self) -> int:
+    def _count_white_area(self) -> int:
         area = 0
         for y in self.pieces:
             for x in y:
@@ -53,15 +51,14 @@ class Board:
                     area += 1
         return area
 
-    def BLACK_is_win(self) -> bool:
-        if self._calc_BLACK_area() > self._calc_WHITE_area():
+    def black_is_win(self) -> bool:
+        if self._count_black_area() > self._count_white_area():
             return True
-        if self._calc_BLACK_area() < self._calc_WHITE_area():
+        if self._count_black_area() < self._count_white_area():
             return False
         return None  # Noneを返せば引き分け
 
-    #"○"が更新されねえ...
-    def update(self) -> Piece:  # boad上のpiece色を演算し、更新
+    def update(self) -> None:  # boad上のpiece色を演算し、更新
         x_offset = self.last_puted_rocation[0]
         y_offset = self.last_puted_rocation[1]
         ########################################
@@ -127,7 +124,6 @@ class Board:
 
         for y in range(y_offset + 1, target_y_lower):
             self.pieces[y][x_offset].reverse_piece()
-
 
         ########################################
         # 右上がり斜め
@@ -225,8 +221,7 @@ class Board:
             y = y_offset + i
             self.pieces[y][x].reverse_piece()
 
-
-    def put_piece_check(self, x: int, y: int, color: str) -> bool:  # boad上のpieceの色のチェック
+    def enable_put(self, x: int, y: int, color: str) -> bool:  # boad上のpieceの色のチェック
         x_offset = x
         y_offset = y
         flag = False

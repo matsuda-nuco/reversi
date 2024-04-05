@@ -1,22 +1,22 @@
 from models.status import Status
 
-class Piece:
 
-    def __init__(self, x, y):
+class Piece:
+    def __init__(self, x: int, y: int):
         self.state = Status.SPACE #初期状態では全ての目が"・"
         self.x = x
         self.y = y
 
-    def set_state(self, color: str) -> Status:
-        self.state: Status = Status.label_of(color)
+    def __str__(self):
+        return self.state
 
-    def reverse_piece(self) -> Status:  # 裏返す
+    def set_state(self, color: Status) -> Status:
+        self.state: Status = color
+
+    def reverse_piece(self) -> None:  # 裏返す
         if self.state == Status.BLACK:
             self.state = Status.WHITE
         elif self.state == Status.WHITE:
             self.state = Status.BLACK
         else:
-            self.state = Status.SPACE
-
-    def __str__(self):
-        return self.state
+            raise ValueError(f"undefined Status: {self.state}")
