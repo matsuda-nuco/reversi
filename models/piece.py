@@ -10,9 +10,6 @@ class Piece:
     def __str__(self):
         return self.state
 
-    def set_state(self, color: Status) -> Status:
-        self.state: Status = color
-
     def reverse_piece(self) -> None:  # 裏返す
         if self.state == Status.BLACK:
             self.state = Status.WHITE
